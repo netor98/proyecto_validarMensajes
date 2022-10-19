@@ -1,4 +1,5 @@
 #include <iostream>
+#include <conio.h>
 #include <string>
 
 using namespace std;
@@ -14,14 +15,17 @@ bool red_social(string y); //Funcion que indica si el mensaje tiene una red soci
 int main(){
     cout<<"Ingresa una cadena: ";
     getline(cin, cadena);
+    cout<<endl;
     //cout<<cadena;
 
     if(numero_tel(cadena)){
-    	cout<<"Cadena invalida";
+    	cout<<"No puedes ingresar datos personales";
+    	getch();
     	return 0;
 	}
     if(correo(cadena)){
-        cout<<"Cadena invalida";
+        cout<<"No puedes ingresar datos personales";
+        getch();
         return 0;
     }
 	else{
@@ -45,7 +49,7 @@ bool numero_tel(string x){
         }
     }
     //Si en el mensaje hay mas de 9 numeros, se considera numero telefonico
-    if(contador>=10){
+    if(contador>=8){
     	return true;
 	}
 	return false;
@@ -54,7 +58,6 @@ bool numero_tel(string x){
 
 
 bool correo(string x){
-
     //Correos estandars
     string correos[4];
     correos[0] = "@hotmail.com";
@@ -67,9 +70,9 @@ bool correo(string x){
 
     //Ciclo donde comparara desde la posicion del arroba hasta el final de la cadena, si coincide con algun correo
     for(int i = 0; i<4; i++){
-        if(x.compare(posicion, x.length()-posicion,correos[i]) == 0){
-            return true;
-        }
+        if(x.find_first_of(correos[i], posicion) != -1){
+        	return true;
+		}
     }
     return false;
 }
