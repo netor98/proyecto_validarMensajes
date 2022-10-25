@@ -1,6 +1,7 @@
 #include <iostream>
 #include <conio.h>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
@@ -9,29 +10,46 @@ string cadena;
 
 bool numero_tel(string x); //Funcion que indica si el mensaje tiene un numero
 bool correo(string x); //Funcion que indica si el mensaje tiene un correo
-bool red_social(string y); //Funcion que indica si el mensaje tiene una red social
-
+bool palabras_reservadas(string x); //Funcion con palabras prohibidas para el usuario
+bool numeros_En_Letras(string x);//Funcion que busca numeros que se hayan ingresado como letras
+bool red_social(string x);
 
 int main(){
     cout<<"Ingresa una cadena: ";
     getline(cin, cadena);
-    cout<<endl;
-    //cout<<cadena;
+    cout<<endl<<endl;
+    
+    //Funcion que convierte a minúsculas toda la cadena que haya ingresado el usuario
+    std::for_each(cadena.begin(), cadena.end(), [](char & c){
+        c = ::tolower(c);
+    });
+
+    
 
     if(numero_tel(cadena)){
     	cout<<"No puedes ingresar datos personales";
-    	getch();
     	return 0;
 	}
     if(correo(cadena)){
         cout<<"No puedes ingresar datos personales";
-        getch();
         return 0;
     }
-	else{
-		cout<<"Cadena valida";
-		return 0;
+    if(palabras_reservadas(cadena)){
+        cout<<"No puedes ingresar datos personales";
+        return 0;
+    }
+    if(red_social(cadena)){
+        cout<<"No puedes ingresar datos personales";
+        return 0;
+    }
+    if(numeros_En_Letras(cadena)){
+    	cout<<"No puedes ingresar datos personales";
+        return 0;
 	}
+
+	cout<<"Cadena valida";
+	return 0;
+	
 }
 
 
@@ -49,7 +67,7 @@ bool numero_tel(string x){
         }
     }
     //Si en el mensaje hay mas de 9 numeros, se considera numero telefonico
-    if(contador>=8){
+    if(contador>=6){
     	return true;
 	}
 	return false;
@@ -75,4 +93,83 @@ bool correo(string x){
 		}
     }
     return false;
+}
+
+
+//Funcion que verifica si existen algunas palabras, si es asi retorna true
+bool palabras_reservadas(string x){
+    if(x.find("nombre") != -1){
+        return true;
+    }
+    if(x.find("soy") != -1){
+        return true;
+    }
+    if(x.find("me llamo") != -1){
+        return true;
+    }
+    if(x.find("contactarme") != -1){
+        return true;
+    }
+    if(x.find("marcarme") != -1){
+    	return true;
+	}
+	if(x.find("marcar") != -1){
+		return true;
+	}
+	
+    return false;
+}
+
+
+//Funcion que busca numeros escritos en texto.
+//si son mayores a cuatro se considera como numero telefonico por lo que retorna true
+bool numeros_En_Letras(string x){
+	int contador = 0;
+	
+	string numeros[10];
+	numeros[0] = "cero";
+	numeros[1] = "uno";
+	numeros[2] = "dos";
+	numeros[3] = "tres";
+	numeros[4] = "cuatro";
+	numeros[5] = "cinco";
+	numeros[6] = "seis";
+	numeros[7] = "siete";
+	numeros[8] = "ocho";
+	numeros[9] = "nueve";
+	
+	//Busca cada numero escrito en texto, si lo encuentra aumenta el contador
+	for(int i = 0; i<10; i++){
+        if(x.find(numeros[i]) != -1){
+        	contador++;
+		}
+    }
+    
+    //Contador mayor o igual que 4, retorn verdadero
+    if(contador >= 4)
+    	return true;
+    return false;
+}
+
+//Funcion que busca referencias a otras redes sociales
+bool red_social(string x){
+	if(x.find("snapchat") != -1){
+		return true;
+	}
+	if(x.find("face") != -1){
+		return true;
+	}
+	if(x.find("facebook") != -1){
+		return true;
+	}
+	if(x.find("twitter") != -1){
+		return true;
+	}
+	if(x.find("whatsapp") != -1){
+		return true;
+	}
+	if(x.find("wa") != -1){
+		return true;
+	}
+	return false;
 }
