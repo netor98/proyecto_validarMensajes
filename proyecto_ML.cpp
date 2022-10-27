@@ -1,5 +1,5 @@
 #include <iostream>
-#include <conio.h>
+//#include <conio.h>
 #include <string>
 #include <algorithm>
 
@@ -86,6 +86,8 @@ bool correo(string x){
     //Posicion cuando encuentra el primer arroba en el mensaje
     int posicion = x.find('@');
 
+    if(x.find('@') != -1 && x.find(".com") != -1 )
+
     //Ciclo donde comparara desde la posicion del arroba hasta el final de la cadena, si coincide con algun correo
     for(int i = 0; i<4; i++){
         if(x.find_first_of(correos[i], posicion) != -1){
@@ -98,24 +100,12 @@ bool correo(string x){
 
 //Funcion que verifica si existen algunas palabras, si es asi retorna true
 bool palabras_reservadas(string x){
-    if(x.find("nombre") != -1){
-        return true;
+    string arreglo_palabras[8] = {"nombre","soy", "me llamo","contactarme","marcarme","marcar",".com","@"};
+    for(int i = 0; i<8; i++){
+        if(x.find(arreglo_palabras[i]) != -1){
+            return true;
+        }
     }
-    if(x.find("soy") != -1){
-        return true;
-    }
-    if(x.find("me llamo") != -1){
-        return true;
-    }
-    if(x.find("contactarme") != -1){
-        return true;
-    }
-    if(x.find("marcarme") != -1){
-    	return true;
-	}
-	if(x.find("marcar") != -1){
-		return true;
-	}
 	
     return false;
 }
