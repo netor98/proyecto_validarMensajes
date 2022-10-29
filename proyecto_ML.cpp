@@ -15,7 +15,7 @@ bool numeros_En_Letras(string x);//Funcion que busca numeros que se hayan ingres
 bool red_social(string x);
 
 int main(){
-    cout<<"Ingresa una cadena: ";
+    cout<<"¿Cómo te puedo contactar?: ";
     getline(cin, cadena);
     cout<<endl<<endl;
     
@@ -100,7 +100,7 @@ bool correo(string x){
 
 //Funcion que verifica si existen algunas palabras, si es asi retorna true
 bool palabras_reservadas(string x){
-    string arreglo_palabras[8] = {"nombre","soy", "me llamo","contactarme","marcarme","marcar",".com","@"};
+    string arreglo_palabras[9] = {"nombre","soy", "me llamo","contactarme","marcarme","marcar", "marca",".com","@"};
     for(int i = 0; i<8; i++){
         if(x.find(arreglo_palabras[i]) != -1){
             return true;
